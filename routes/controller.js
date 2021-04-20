@@ -19,7 +19,7 @@ const Template = require("../models/template")
 
 router.get("/", async(req, res)=>{
     try{
-        const source_files = await Template.find()
+        const source_files = await Template.find({})
         res.json(source_files)
 
     }catch(err){
@@ -28,21 +28,39 @@ router.get("/", async(req, res)=>{
 })
 
 // TO CALL WITH ID
-router.get("/:ID", async(req, res)=>{
+
+router.get("/:id", async(req, res)=>{
+        try{
+            const source_file = await Template.findById(req.params.id)
+            res.json(source_file)
+    
+        }catch(err){
+            res.send("Error" + err)
+        }
+    })
+
+router.get("/filter/:id", async(req, res)=>{
     try{
-        const source_file = await Template.findById(req.params.id)
-        res.json(source_file)
+        console.log("Name, Tag , Brand , UnitPrice , MultPrice")
+        const source_files = await Template.find({$or:[{"Name ":req.params.id},{"Tag":req.params.id},{"Brand ":req.params.id}]})
+        res.json(source_files)
 
     }catch(err){
         res.send("Error" + err)
     }
+
 })
+
+
+
 
 router.post("/", async(req, res) => {
     const source_file = new Template({
-        name: req.body.name,
-        tech: req.body.tech,
-        sub:req.body.sub
+        Name: req.body.Name,
+        Tag: req.body.Tag,
+        Brand:req.body.Brand,
+        UnitPrice: req.body.UnitPrice,
+        MultPrice: req.body.MultPrice,
     })
     try{
         const a1 = await source_file.save() // save to db

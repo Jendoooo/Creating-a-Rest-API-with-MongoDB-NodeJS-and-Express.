@@ -1,7 +1,9 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const app = express()
-const port = 41999
+port = process.env.PORT || 41999
+// app.set('port', process.env.PORT || 41999);
+// const port = 41999
 // const url = "mongodb://localhost:27017/GTCdb" //specifiying the default url and db
 
 // change the above to online route
